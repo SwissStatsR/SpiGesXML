@@ -7,16 +7,22 @@ output: github_document
 # SpiGesXML
 
 <!-- badges: start -->
+[![swissstatsr badge](https://swissstatsr.r-universe.dev/badges/:name)](https://swissstatsr.r-universe.dev/)
+[![SpiGesXML status badge](https://swissstatsr.r-universe.dev/badges/SpiGesXML)](https://swissstatsr.r-universe.dev/SpiGesXML)
 <!-- badges: end -->
 
 The goal of SpiGesXML is to ease extraction of data from SpiGes XML files.
 
 ## Installation
 
-You can install the development version of SpiGesXML like so:
+``` r
+# install from the r-universe
+install.packages("SpiGesXML", repos = "https://swissstatsr.r-universe.dev")
+```
 
 ``` r
-install.packages("SpiGesXML", repos = "https://swissstatsr.r-universe.dev")
+# install from GitHub
+pak::pak("SwissStatsR/SpiGesXML")
 ```
 
 ## Examples
