@@ -6,7 +6,7 @@
 #' @param x A string, a connection, or a raw vector. See \code{xml2::read_xml}
 #' @param node Name of the node as string, see \code{get_node_names}
 #' @param variables Name of the variables, by default returns all variables
-#' @importFrom xml2 read_xml xml_ns_rename xml_find_all xml_attr xml_parent xml_find_first
+#' @importFrom xml2 read_xml xml_ns_rename xml_find_all xml_attr xml_parent xml_find_first xml_validate
 #' @importFrom dplyr as_tibble bind_cols
 #' @importFrom purrr map_dfc set_names
 #' @return data.frame/tibble
@@ -23,6 +23,13 @@ spiges_get_df <- function(x, node, variables = NULL) {
   xml <- xml2::read_xml(x)
   ns <- xml_ns_rename(xml_ns(xml), d1 = "spiges", xsi = "xsi")
   nodeset <- xml_find_all(x = xml, xpath = paste0("//spiges:", node), ns = ns)
+
+  # validate the XML format
+  xsd_file <- "https://dam-api.bfs.admin.ch/hub/api/dam/assets/32129176/master"
+  schema_file <- xml2::read_xml(xsd_file)
+
+  # validate input file
+  xml2::xml_validate(xml, schema_file)
 
   # Return base dataframe based on node name without additional variables
   df_base <- if(node %in% c("Fallkosten", "Administratives", "Neugeborene", "Psychiatrie", "KostentraegerFall",

@@ -33,7 +33,7 @@ library(SpiGesXML)
 
 # SpiGes XML file example 
 # https://www.bfs.admin.ch/bfs/de/home/statistiken/gesundheit/gesundheitswesen/projekt-spiges.assetdetail.27905035.html
-xml_example <- "https://dam-api.bfs.admin.ch/hub/api/dam/assets/27905035/master"
+xml_example <- "https://dam-api.bfs.admin.ch/hub/api/dam/assets/32129227/master"
 
 spiges_get_df(x = xml_example, node = "Administratives")
 ```

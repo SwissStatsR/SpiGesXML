@@ -49,7 +49,7 @@ spiges_get_name_variables <- function() {
                                  'ktr_31_6b3_ank','ktr_31_6b4_ank','ktr_31_6b5_ank','ktr_32_ank',
                                  'ktr_33_ank','ktr_34_ank','ktr_35_ank','ktr_36_ank','ktr_38_ank',
                                  'ktr_39_ank','ktr_40_ank','ktr_41_ank','ktr_42_ank','ktr_43_ank',
-                                 'ktr_44_ank','ktr_45_ank','ktr_77_ank','ktr_44_vkl','ktr_kosten_65',
+                                 'ktr_44_ank','ktr_45_ank','ktr_77_ank','ktr_44_vkl','ktr_44_rekole','ktr_kosten_65',
                                  'ktr_le_ambulant','ktr_methodik'),
     KostentraegerFall = c('ktr_typ','ktr_beschr','ktr_60','ktr_61','ktr_62','ktr_65',
                           'ktr_66','ktr_68','ktr_69','ktr_697','ktr_4001','ktr_4002',
@@ -67,7 +67,7 @@ spiges_get_name_variables <- function() {
                           'ktr_31_6b3_ank','ktr_31_6b4_ank','ktr_31_6b5_ank','ktr_32_ank',
                           'ktr_33_ank','ktr_34_ank','ktr_35_ank','ktr_36_ank','ktr_38_ank',
                           'ktr_39_ank','ktr_40_ank','ktr_41_ank','ktr_42_ank','ktr_43_ank',
-                          'ktr_44_ank','ktr_45_ank','ktr_77_ank','ktr_44_vkl','ktr_kosten_65',
+                          'ktr_44_ank','ktr_45_ank','ktr_77_ank','ktr_44_vkl','ktr_44_rekole','ktr_kosten_65',
                           'ktr_le_ambulant','ktr_methodik'),
     Diagnose = c('diagnose_id','diagnose_kode','diagnose_seitigkeit',
                  'diagnose_poa','diagnose_zusatz'),
@@ -97,7 +97,7 @@ spiges_get_name_variables <- function() {
                               'ktr_31_6b3_ank','ktr_31_6b4_ank','ktr_31_6b5_ank','ktr_32_ank',
                               'ktr_33_ank','ktr_34_ank','ktr_35_ank','ktr_36_ank','ktr_38_ank',
                               'ktr_39_ank','ktr_40_ank','ktr_41_ank','ktr_42_ank','ktr_43_ank',
-                              'ktr_44_ank','ktr_45_ank','ktr_77_ank','ktr_44_vkl','ktr_kosten_65',
+                              'ktr_44_ank','ktr_45_ank','ktr_77_ank','ktr_44_vkl','ktr_44_rekole','ktr_kosten_65',
                               'ktr_le_ambulant','ktr_methodik')
   )
 }

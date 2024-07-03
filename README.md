@@ -34,16 +34,27 @@ library(SpiGesXML)
 
 # SpiGes XML file example 
 # https://www.bfs.admin.ch/bfs/de/home/statistiken/gesundheit/gesundheitswesen/projekt-spiges.assetdetail.27905035.html
-xml_example <- "https://dam-api.bfs.admin.ch/hub/api/dam/assets/27905035/master"
+xml_example <- "https://dam-api.bfs.admin.ch/hub/api/dam/assets/32129227/master"
 
 spiges_get_df(x = xml_example, node = "Administratives")
 ```
 
-    ## # A tibble: 2 × 34
-    ##   ent_id    burnr  fall_id burnr…¹ abc_f…² gesch…³ alter alter…⁴ wohno…⁵ wohnk…⁶
-    ##   <chr>     <chr>  <chr>   <chr>   <chr>   <chr>   <chr> <chr>   <chr>   <chr>  
-    ## 1 845724581 71548… 5443546 7584215 A       1       0     0       AG01    AG     
-    ## 2 845724581 71548… 5443547 7584215 A       2       37    <NA>    <NA>    <NA>   
+    ## # A tibble: 13 × 34
+    ##    ent_id    burnr fall_id burnr…¹ abc_f…² gesch…³ alter alter…⁴ wohno…⁵ wohnk…⁶
+    ##    <chr>     <chr> <chr>   <chr>   <chr>   <chr>   <chr> <chr>   <chr>   <chr>  
+    ##  1 100000012 1000… 1       712978… A       2       97    <NA>    GE03    GE     
+    ##  2 100000012 1000… 2       712879… A       1       49    <NA>    AG52    AG     
+    ##  3 100000012 1000… 3       712934… A       2       101   <NA>    BE76    BE     
+    ##  4 100000012 1000… 4       712879… A       1       62    <NA>    AG52    AG     
+    ##  5 100000012 1000… 5       712879… A       2       61    <NA>    AG52    AG     
+    ##  6 100000012 1000… 6       712978… A       2       84    <NA>    VD39    VD     
+    ##  7 100000012 1000… 7       712879… A       1       75    <NA>    BE48    BE     
+    ##  8 100000012 1000… 8       711791… A       2       91    <NA>    BE52    BE     
+    ##  9 100000012 1000… 9       712879… A       1       65    <NA>    BE48    BE     
+    ## 10 100000012 1000… 10      712934… A       2       105   <NA>    ZH29    ZH     
+    ## 11 100000012 1000… 11      711791… A       1       67    <NA>    ZH23    ZH     
+    ## 12 100000012 1000… 12      712934… A       1       55    <NA>    BS09    BS     
+    ## 13 100000012 1000… 13      712879… A       2       67    <NA>    TI30    TI     
     ## # … with 24 more variables: wohnland <chr>, nationalitaet <chr>,
     ## #   eintrittsdatum <chr>, eintritt_aufenthalt <chr>, eintrittsart <chr>,
     ## #   einw_instanz <chr>, liegeklasse <chr>, versicherungsklasse <chr>,
@@ -58,11 +69,22 @@ Variables can be individually selected using the `variables` argument:
 spiges_get_df(x = xml_example, node = "Administratives", variables = c("abc_fall", "geschlecht"))
 ```
 
-    ## # A tibble: 2 × 5
-    ##   ent_id    burnr    fall_id abc_fall geschlecht
-    ##   <chr>     <chr>    <chr>   <chr>    <chr>     
-    ## 1 845724581 71548624 5443546 A        1         
-    ## 2 845724581 71548624 5443547 A        2
+    ## # A tibble: 13 × 5
+    ##    ent_id    burnr    fall_id abc_fall geschlecht
+    ##    <chr>     <chr>    <chr>   <chr>    <chr>     
+    ##  1 100000012 10000012 1       A        2         
+    ##  2 100000012 10000012 2       A        1         
+    ##  3 100000012 10000012 3       A        2         
+    ##  4 100000012 10000012 4       A        1         
+    ##  5 100000012 10000012 5       A        2         
+    ##  6 100000012 10000012 6       A        2         
+    ##  7 100000012 10000012 7       A        1         
+    ##  8 100000012 10000012 8       A        2         
+    ##  9 100000012 10000012 9       A        1         
+    ## 10 100000012 10000012 10      A        2         
+    ## 11 100000012 10000012 11      A        1         
+    ## 12 100000012 10000012 12      A        1         
+    ## 13 100000012 10000012 13      A        2
 
 Show node names available for data extraction in XML SpiGes:
 
@@ -70,12 +92,8 @@ Show node names available for data extraction in XML SpiGes:
 spiges_get_name_nodes(x = xml_example)
 ```
 
-    ##  [1] "KostentraegerUnternehmen" "KostentraegerStandort"   
-    ##  [3] "Administratives"          "Neugeborene"             
-    ##  [5] "KostentraegerFall"        "Diagnose"                
-    ##  [7] "Behandlung"               "Rechnung"                
-    ##  [9] "Psychiatrie"              "Medikament"              
-    ## [11] "Patientenbewegung"
+    ## [1] "Administratives"   "Diagnose"          "KostentraegerFall"
+    ## [4] "Behandlung"        "Rechnung"
 
 Get list of variable names available by SpiGes node names:
 
@@ -88,15 +106,15 @@ spiges_get_name_variables() |>
     ##  $ Administratives         : chr [1:31] "burnr_gesv" "abc_fall" "geschlecht" "alter" ...
     ##  $ Neugeborene             : chr [1:16] "geburtszeit" "vitalstatus" "mehrling" "geburtsrang" ...
     ##  $ Psychiatrie             : chr [1:31] "psy_zivilstand" "psy_eintritt_aufenthalt" "psy_eintritt_teilzeit" "psy_eintritt_vollzeit" ...
-    ##  $ KostentraegerUnternehmen: chr [1:95] "ktr_typ" "ktr_beschr" "ktr_60" "ktr_61" ...
-    ##  $ KostentraegerFall       : chr [1:95] "ktr_typ" "ktr_beschr" "ktr_60" "ktr_61" ...
+    ##  $ KostentraegerUnternehmen: chr [1:96] "ktr_typ" "ktr_beschr" "ktr_60" "ktr_61" ...
+    ##  $ KostentraegerFall       : chr [1:96] "ktr_typ" "ktr_beschr" "ktr_60" "ktr_61" ...
     ##  $ Diagnose                : chr [1:5] "diagnose_id" "diagnose_kode" "diagnose_seitigkeit" "diagnose_poa" ...
     ##  $ Behandlung              : chr [1:6] "behandlung_id" "behandlung_chop" "behandlung_seitigkeit" "behandlung_beginn" ...
     ##  $ Operierende             : chr [1:3] "op_gln" "op_liste" "op_rolle"
     ##  $ Medikament              : chr [1:6] "medi_id" "medi_atc" "medi_zusatz" "medi_verabreichungsart" ...
     ##  $ Rechnung                : chr [1:11] "rech_id" "rech_kostentraeger" "rech_versicherer" "rech_unfallnr" ...
     ##  $ Patientenbewegung       : chr [1:7] "episode_id" "episode_beginn" "episode_ende" "episode_art" ...
-    ##  $ KostentraegerStandort   : chr [1:95] "ktr_typ" "ktr_beschr" "ktr_60" "ktr_61" ...
+    ##  $ KostentraegerStandort   : chr [1:96] "ktr_typ" "ktr_beschr" "ktr_60" "ktr_61" ...
 
 ## Notes
 
