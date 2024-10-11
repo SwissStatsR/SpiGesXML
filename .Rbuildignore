@@ -6,3 +6,4 @@
 ^\.github$
 ^data-raw$
 .Renviron
+_pkgdown.yml

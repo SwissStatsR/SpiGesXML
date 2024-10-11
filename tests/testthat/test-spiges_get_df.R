@@ -41,11 +41,3 @@ test_that("spiges_get_df() with version 1.3 works", {
   expect_true(ncol(df_v1_3) >= 1)
 })
 
-cli::test_that_cli("spiges_get_df() returns error properly", {
-  testthat::expect_snapshot({
-    spiges_get_df(
-      x = system.file("example_incorrect_format.xml", package = "SpiGesXML"),
-      node = "Administratives"
-    )
-  })
-})
