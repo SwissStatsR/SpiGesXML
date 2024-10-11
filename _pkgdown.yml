@@ -1,0 +1,9 @@
+url: http://swissstatsr.org/SpiGesXML/
+template:
+  bootstrap: 5
+  bootswatch: litera
+  bslib:
+    primary: '#f72517'
+authors:
+  Felix Luginbuhl:
+    href: https://felixluginbuhl.com
