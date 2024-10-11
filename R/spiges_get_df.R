@@ -6,34 +6,62 @@
 #' @param x A string, a connection, or a raw vector. See \code{xml2::read_xml}
 #' @param node Name of the node as string, see \code{get_node_names}
 #' @param variables Name of the variables, by default returns all variables
+#' @param schema_xsd URL of an XSD schema version, by default "latest" version.
+#' @param force default FALSE. If TRUE, returns data even if validation error.
 #' @importFrom xml2 read_xml xml_ns_rename xml_find_all xml_attr xml_parent xml_find_first xml_validate
 #' @importFrom dplyr as_tibble bind_cols
 #' @importFrom purrr map_dfc set_names
+#' @importFrom cli cli_alert_success cli_alert_danger
 #' @return data.frame/tibble
 #' @export
-spiges_get_df <- function(x, node, variables = NULL) {
-  node <- match.arg(
+spiges_get_df <- function(x, node, variables = NULL, schema_xsd = "latest", force = FALSE) {
+  # validate the XML format based on node selection
+  schema_xml <- if(node != "Personenidentifikatoren") {
+    if(schema_xsd == "latest") {
+      "https://dam-api.bfs.admin.ch/hub/api/dam/assets/32129176/master"
+    } else {
+      schema_xsd
+    }
+  } else if(node == "Personenidentifikatoren") {
+    if(schema_xsd == "latest") {
+      "https://dam-api.bfs.admin.ch/hub/api/dam/assets/32129184/master"
+    } else {
+      schema_xsd
+    }
+  }
+  node <- rlang::arg_match(
     arg = node,
-    choices = c("KostentraegerUnternehmen",
-                "KostentraegerStandort", "Administratives", "Neugeborene",
-                "KostentraegerFall", "Diagnose", "Behandlung", "Operierende",
-                "Rechnung", "Medikament", "Patientenbewegung", "Psychiatrie",
-                "Kantonsdaten")
+    values = c(
+      names(spiges_get_name_variables(schema_xml)),
+      # hard-coded as possible node names which don't exist in the XSD schema file
+      "KostentraegerUnternehmen", "KostentraegerStandort", "KostentraegerFall"
+    )
   )
   xml <- xml2::read_xml(x)
-  ns <- xml_ns_rename(xml_ns(xml), d1 = "spiges", xsi = "xsi")
-  nodeset <- xml_find_all(x = xml, xpath = paste0("//spiges:", node), ns = ns)
+  ns <- xml2::xml_ns_rename(xml2::xml_ns(xml), d1 = "spiges", xsi = "xsi")
+  nodeset <- xml2::xml_find_all(x = xml, xpath = paste0("//spiges:", node), ns = ns)
 
-  # validate the XML format
-  xsd_file <- "https://dam-api.bfs.admin.ch/hub/api/dam/assets/32129176/master"
-  schema_file <- xml2::read_xml(xsd_file)
+  schema_file <- xml2::read_xml(schema_xml)
+  schema_xmlns <- xml2::xml_attr(schema_file, attr = "xmlns")
+  schema_type <- basename(dirname(schema_xmlns))
+  schema_version <- basename(schema_xmlns)
 
   # validate input file
-  xml2::xml_validate(xml, schema_file)
+  validation_output <- xml2::xml_validate(xml, schema_file)
+
+  if(validation_output) {
+    cli::cli_alert_success("Format correctly validated using {schema_type} v.{schema_version}.")
+  }
+  if(isFALSE(validation_output)) {
+    cli::cli_alert_danger("Incorrect format  using {schema_type} v.{schema_version}.\n\n{attributes(validation_output)$errors}")
+    if (isFALSE(force)) {
+      return(invisible(FALSE))
+    }
+  }
 
   # Return base dataframe based on node name without additional variables
   df_base <- if(node %in% c("Fallkosten", "Administratives", "Neugeborene", "Psychiatrie", "KostentraegerFall",
-                            "Diagnose","Behandlung", "Medikament", "Rechnung", "Patientenbewegung")) {
+                            "Diagnose","Behandlung", "Medikament", "Rechnung", "Patientenbewegung", "Personenidentifikatoren")) {
     data.frame(
       ent_id = xml_attr(xml_find_first(xml_find_first(xml_find_first(nodeset, "./parent::*"), "./parent::*"), "./parent::*"), "ent_id"),
       burnr = xml_attr(xml_find_first(xml_find_first(nodeset, "./parent::*"), "./parent::*"), "burnr"),
@@ -44,7 +72,7 @@ spiges_get_df <- function(x, node, variables = NULL) {
       burnr = xml_attr(xml_find_first(xml_find_first(xml_find_first(nodeset,"./parent::*"),"./parent::*"),"./parent::*"),"burnr"),
       fall_id = xml_attr(xml_find_first(xml_find_first(nodeset,"./parent::*"),"./parent::*"),"fall_id"),
       behandlung_id = xml_attr(xml_find_first(nodeset, "./parent::*"), "behandlung_id"))
-  }  else if(node %in% c("KostentraegerStandort")) {
+  } else if(node %in% c("KostentraegerStandort")) {
     data.frame(
       ent_id = xml_attr(xml_find_first(xml_find_first(nodeset, "./parent::*"), "./parent::*"), "ent_id"),
       burnr = xml_attr(xml_find_first(nodeset, "./parent::*"), "burnr"))
@@ -53,20 +81,29 @@ spiges_get_df <- function(x, node, variables = NULL) {
       ent_id = xml_attr(xml_find_first(nodeset, "./parent::*"), "ent_id"))
   }
   # full list of variables based on node, using spiges_get_name_variables()
-  vars_all <- spiges_get_name_variables()[[node]]
+  vars_all <- spiges_get_name_variables(schema_xsd = schema_xml)[[node]]
+
   # variable selection, if NULL get all variables
   vars <- if(is.null(variables)) {
     vars_all
   } else {
-    variables
+    rlang::arg_match(
+      arg = variables,
+      values = vars_all,
+      multiple = TRUE
+    )
   }
   # function to get attributes values of a given variable
   get_variable_values <- function(variable) {
     xml_attr(x = nodeset, attr = variable) |>
       as_tibble() |>
-      set_names(variable)
+      purrr::set_names(variable)
   }
-  df_variables <- map_dfc(.x = vars, .f = get_variable_values)
+  df_variables <- purrr::map_dfc(.x = vars, .f = get_variable_values)
+  if(nrow(df_variables) == 0) {
+    cli::cli_alert_danger(paste0("No data for node '", node, "'."))
+    return(df_variables)
+  }
   # join variables to base dataframe
   df <- df_base |>
     bind_cols(df_variables) |>

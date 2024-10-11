@@ -4,7 +4,7 @@
 \alias{spiges_get_df}
 \title{Get SpiGes node as dataframe}
 \usage{
-spiges_get_df(x, node, variables = NULL)
+spiges_get_df(x, node, variables = NULL, schema_xsd = "latest", force = FALSE)
 }
 \arguments{
 \item{x}{A string, a connection, or a raw vector. See \code{xml2::read_xml}}
@@ -12,6 +12,10 @@ spiges_get_df(x, node, variables = NULL)
 \item{node}{Name of the node as string, see \code{get_node_names}}
 
 \item{variables}{Name of the variables, by default returns all variables}
+
+\item{schema_xsd}{URL of an XSD schema version, by default "latest" version.}
+
+\item{force}{default FALSE. If TRUE, returns data even if validation error.}
 }
 \value{
 data.frame/tibble

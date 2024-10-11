@@ -4,7 +4,10 @@
 \alias{spiges_get_name_variables}
 \title{List of official variable names by node}
 \usage{
-spiges_get_name_variables()
+spiges_get_name_variables(schema_xsd)
+}
+\arguments{
+\item{schema_xsd}{XSD schema file}
 }
 \value{
 a list of variable names

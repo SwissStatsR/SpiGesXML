@@ -1,9 +1,9 @@
 Package: SpiGesXML
 Type: Package
 Title: Extract data from SpiGes XML files
-Version: 0.0.3
+Version: 0.0.6
 Authors@R: c(
-    person("Felix", "Luginbuhl", email = "felix.luginbuehl@sg.ch", role = c("aut", "cre")),
+    person("Felix", "Luginbuhl", email = "felix.luginbuehl@sg.ch", role = c("aut", "cre"), comment = c(ORCID = "0009-0008-6625-2899")),
     person("Hedwig", "Prey", role = c("aut")),
     person("Fachstelle für Statistik Kanton St.Gallen", role = c("cph", "fnd"))
     )
@@ -15,7 +15,13 @@ LazyData: true
 Depends: 
     R (>= 2.10)
 Imports:
+    stats,
     xml2,
     dplyr,
-    purrr
+    purrr,
+    cli,
+    rlang
 RoxygenNote: 7.2.3
+Suggests: 
+    testthat (>= 3.0.0)
+Config/testthat/edition: 3

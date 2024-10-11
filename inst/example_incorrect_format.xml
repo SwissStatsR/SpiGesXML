@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Unternehmen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.bfs.admin.ch/xmlns/gvs/spiges-data/1.4" ent_id="100000012" version="1.4">
+	<Standort burnr="INCORRECT VALUE">
+		<Fall fall_id="1">
+			<Administratives  abc_fall="A" admin_urlaub="0" alter="97" aufenthalt_imc="0" aufenthalt_ips="0" austritt_aufenthalt="2" austritt_behandlung="2" austrittsdatum="2023012011" austrittsentscheid="1" beatmung="0" burnr_gesv="71297832" eintritt_aufenthalt="84" eintrittsart="4" eintrittsdatum="2023011511" einw_instanz="3" geschlecht="2" grundversicherung="5" hauptleistungsstelle="M900" liegeklasse="1" nationalitaet="CHE" nems="0" tarif="7" versicherungsklasse="1" wohnkanton="GE" wohnland="CHE" wohnort_medstat="GE03"/>
+			<Diagnose diagnose_id="1" diagnose_kode="Z748"/>
+		</Fall>
+	</Standort>
+</Unternehmen>

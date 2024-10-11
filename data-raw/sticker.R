@@ -1,20 +1,19 @@
 library(hexSticker)
+library(magick)
+library(rsvg)
 
 sticker_SpiGesXML <- sticker(
-  subplot = "https://upload.wikimedia.org/wikipedia/commons/d/db/Hospital_Edited.png",
+  subplot = "data-raw/medical-record-logo.svg",
   package = "SpiGesXML",
   h_fill = "firebrick",
-  h_color = "black",
   p_color = "white",
-  url = "github.com/SwissStatsR/SpiGesXML",
-  u_color = "white",
   u_size = 3.5,
-  p_y = 1.35,
-  p_size = 20,
-  s_width = 0.5,
-  h_size = 1,
+  p_y = 0.65,
+  p_size = 19,
+  s_width = 0.45,
+  h_size = 0,
   s_x = 1,
-  s_y = 0.77,
+  s_y = 1.25,
   filename = "man/figures/logo.png")
 
 logo <- magick::image_read("man/figures/logo.png")
