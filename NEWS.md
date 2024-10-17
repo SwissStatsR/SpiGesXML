@@ -6,6 +6,7 @@
 - add unit tests
 - returns error message with suggestions if node or variable doesn't exist
 - return empty tibble with message if no data in node.
+- add condition to fix "Kostentraeger" node variable in spiges_get_df()
 
 # SpiGesXML 0.0.3
 - updated to SpiGes version 4.1

@@ -9,6 +9,14 @@ test_that("spiges_get_df() works", {
   expect_true(nrow(df) >= 1)
   expect_true(ncol(df) >= 1)
 
+  df_kostentraeger <- spiges_get_df(
+    x = x,
+    node = "KostentraegerFall"
+  )
+  expect_s3_class(df_kostentraeger, "data.frame")
+  expect_true(nrow(df_kostentraeger) >= 1)
+  expect_true(ncol(df_kostentraeger) >= 1)
+
   # force return data
   df_incorrect <- spiges_get_df(
     x = system.file("example_incorrect_format.xml", package = "SpiGesXML"),

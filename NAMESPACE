@@ -3,6 +3,7 @@
 export(spiges_get_df)
 export(spiges_get_name_nodes)
 export(spiges_get_name_variables)
+importFrom(cli,cli_abort)
 importFrom(cli,cli_alert_danger)
 importFrom(cli,cli_alert_success)
 importFrom(dplyr,as_tibble)

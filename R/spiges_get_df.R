@@ -11,7 +11,7 @@
 #' @importFrom xml2 read_xml xml_ns_rename xml_find_all xml_attr xml_parent xml_find_first xml_validate
 #' @importFrom dplyr as_tibble bind_cols
 #' @importFrom purrr map_dfc set_names
-#' @importFrom cli cli_alert_success cli_alert_danger
+#' @importFrom cli cli_alert_success cli_alert_danger cli_abort
 #' @return data.frame/tibble
 #' @export
 spiges_get_df <- function(x, node, variables = NULL, schema_xsd = "latest", force = FALSE) {
@@ -29,13 +29,25 @@ spiges_get_df <- function(x, node, variables = NULL, schema_xsd = "latest", forc
       schema_xsd
     }
   }
-  node <- rlang::arg_match(
-    arg = node,
-    values = c(
+
+  # Condition for "Kostentraeger" related node variables
+  if(node == "Kostentraeger") {
+    cli::cli_abort("To get data for 'Kostentraeger' node, use instead 'KostentraegerUnternehmen', 'KostentraegerStandort', or 'KostentraegerFall'")
+  }
+  if(node %in% c("KostentraegerUnternehmen", "KostentraegerStandort", "KostentraegerFall")) {
+    nodes_available <- c(
       names(spiges_get_name_variables(schema_xml)),
       # hard-coded as possible node names which don't exist in the XSD schema file
+      # Note that "Kostentraeger" is used in the definition file for the three nodes below:
       "KostentraegerUnternehmen", "KostentraegerStandort", "KostentraegerFall"
     )
+  } else {
+    nodes_available <- c(names(spiges_get_name_variables(schema_xml)))
+  }
+
+  node <- rlang::arg_match(
+    arg = node,
+    values = nodes_available
   )
   xml <- xml2::read_xml(x)
   ns <- xml2::xml_ns_rename(xml2::xml_ns(xml), d1 = "spiges", xsi = "xsi")
@@ -80,8 +92,14 @@ spiges_get_df <- function(x, node, variables = NULL, schema_xsd = "latest", forc
     data.frame(
       ent_id = xml_attr(xml_find_first(nodeset, "./parent::*"), "ent_id"))
   }
+
   # full list of variables based on node, using spiges_get_name_variables()
-  vars_all <- spiges_get_name_variables(schema_xsd = schema_xml)[[node]]
+  # logic to extract Kostentraeger variable node:
+  if(node %in% c("KostentraegerFall", "KostentraegerStandort", "KostentraegerUnternehmen")) {
+    vars_all <- spiges_get_name_variables(schema_xsd = schema_xml)[["Kostentraeger"]]
+  } else {
+    vars_all <- spiges_get_name_variables(schema_xsd = schema_xml)[[node]]
+  }
 
   # variable selection, if NULL get all variables
   vars <- if(is.null(variables)) {
