@@ -27,6 +27,13 @@ install.packages("SpiGesXML", repos = "https://swissstatsr.r-universe.dev")
 remotes::install_github("SwissStatsR/SpiGesXML")
 ```
 
+## Latest validation format
+
+By default, the functions use the “latest” format validation version,
+which is currently the SpiGes version 1.5. The section [Change format
+version](##%20Change%20format%20validation%20version) provides examples
+how to change manually the version.
+
 ## Examples
 
 Using `spiges_get_df()`, you can get the data from any SpiGes XML file
