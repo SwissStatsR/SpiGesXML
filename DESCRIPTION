@@ -1,7 +1,7 @@
 Package: SpiGesXML
 Type: Package
 Title: Extract data from SpiGes XML files
-Version: 0.0.6
+Version: 0.0.7
 Authors@R: c(
     person("Felix", "Luginbuhl", email = "felix.luginbuehl@sg.ch", role = c("aut", "cre"), comment = c(ORCID = "0009-0008-6625-2899")),
     person("Hedwig", "Prey", role = c("aut")),

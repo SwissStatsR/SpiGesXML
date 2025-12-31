@@ -38,30 +38,20 @@ library(SpiGesXML)
 
 # SpiGes XML file example 
 # https://www.bfs.admin.ch/bfs/de/home/statistiken/gesundheit/gesundheitswesen/projekt-spiges.assetdetail.27905035.html
-xml_example <- "https://dam-api.bfs.admin.ch/hub/api/dam/assets/32129227/master"
+#xml_example <- "https://dam-api.bfs.admin.ch/hub/api/dam/assets/32129227/master"
+xml_example <- "https://dam-api.bfs.admin.ch/hub/api/dam/assets/36147530/master"
 
 spiges_get_df(x = xml_example, node = "Administratives")
 ```
 
-    ## ✔ Format correctly validated using spiges-data v.1.4.
+    ## ✔ Format correctly validated using XSD schema https://dam-api.bfs.admin.ch/hub/api/dam/assets/36182162/master.
 
-    ## # A tibble: 13 × 34
-    ##    ent_id    burnr fall_id burnr…¹ abc_f…² gesch…³ alter alter…⁴ wohno…⁵ wohnk…⁶
-    ##    <chr>     <chr> <chr>   <chr>   <chr>   <chr>   <chr> <chr>   <chr>   <chr>  
-    ##  1 100000012 1000… 1       712978… A       2       97    <NA>    GE03    GE     
-    ##  2 100000012 1000… 2       712879… A       1       49    <NA>    AG52    AG     
-    ##  3 100000012 1000… 3       712934… A       2       101   <NA>    BE76    BE     
-    ##  4 100000012 1000… 4       712879… A       1       62    <NA>    AG52    AG     
-    ##  5 100000012 1000… 5       712879… A       2       61    <NA>    AG52    AG     
-    ##  6 100000012 1000… 6       712978… A       2       84    <NA>    VD39    VD     
-    ##  7 100000012 1000… 7       712879… A       1       75    <NA>    BE48    BE     
-    ##  8 100000012 1000… 8       711791… A       2       91    <NA>    BE52    BE     
-    ##  9 100000012 1000… 9       712879… A       1       65    <NA>    BE48    BE     
-    ## 10 100000012 1000… 10      712934… A       2       105   <NA>    ZH29    ZH     
-    ## 11 100000012 1000… 11      711791… A       1       67    <NA>    ZH23    ZH     
-    ## 12 100000012 1000… 12      712934… A       1       55    <NA>    BS09    BS     
-    ## 13 100000012 1000… 13      712879… A       2       67    <NA>    TI30    TI     
-    ## # … with 24 more variables: wohnland <chr>, nationalitaet <chr>,
+    ## # A tibble: 2 × 35
+    ##   ent_id    burnr  fall_id burnr…¹ abc_f…² gesch…³ alter alter…⁴ wohno…⁵ wohnk…⁶
+    ##   <chr>     <chr>  <chr>   <chr>   <chr>   <chr>   <chr> <chr>   <chr>   <chr>  
+    ## 1 845724581 52704… 5443546 7584215 A       1       0     1       AG01    AG     
+    ## 2 845724581 52704… 5443547 7584215 A       2       37    <NA>    <NA>    <NA>   
+    ## # … with 25 more variables: wohnland <chr>, nationalitaet <chr>,
     ## #   eintrittsdatum <chr>, eintritt_aufenthalt <chr>, eintrittsart <chr>,
     ## #   einw_instanz <chr>, liegeklasse <chr>, versicherungsklasse <chr>,
     ## #   admin_urlaub <chr>, chlz <chr>, aufenthalt_ips <chr>, beatmung <chr>,
@@ -118,9 +108,9 @@ spiges_get_df(
 )
 ```
 
-    ## ✖ Incorrect format  using spiges-data v.1.4.
+    ## ✖ Incorrect format using XSD schema https://dam-api.bfs.admin.ch/hub/api/dam/assets/36182162/master.
     ## 
-    ## Element '{http://www.bfs.admin.ch/xmlns/gvs/spiges-data/1.4}Standort', attribute 'burnr': 'INCORRECT VALUE' is not a valid value of the local atomic type.
+    ## Element '{http://www.bfs.admin.ch/xmlns/gvs/spiges-data/1.4}Unternehmen': No matching global declaration available for the validation root.
 
 Variables can be individually selected using the `variables` argument:
 
@@ -128,24 +118,13 @@ Variables can be individually selected using the `variables` argument:
 spiges_get_df(x = xml_example, node = "Administratives", variables = c("abc_fall", "geschlecht"))
 ```
 
-    ## ✔ Format correctly validated using spiges-data v.1.4.
+    ## ✔ Format correctly validated using XSD schema https://dam-api.bfs.admin.ch/hub/api/dam/assets/36182162/master.
 
-    ## # A tibble: 13 × 5
-    ##    ent_id    burnr    fall_id abc_fall geschlecht
-    ##    <chr>     <chr>    <chr>   <chr>    <chr>     
-    ##  1 100000012 10000012 1       A        2         
-    ##  2 100000012 10000012 2       A        1         
-    ##  3 100000012 10000012 3       A        2         
-    ##  4 100000012 10000012 4       A        1         
-    ##  5 100000012 10000012 5       A        2         
-    ##  6 100000012 10000012 6       A        2         
-    ##  7 100000012 10000012 7       A        1         
-    ##  8 100000012 10000012 8       A        2         
-    ##  9 100000012 10000012 9       A        1         
-    ## 10 100000012 10000012 10      A        2         
-    ## 11 100000012 10000012 11      A        1         
-    ## 12 100000012 10000012 12      A        1         
-    ## 13 100000012 10000012 13      A        2
+    ## # A tibble: 2 × 5
+    ##   ent_id    burnr    fall_id abc_fall geschlecht
+    ##   <chr>     <chr>    <chr>   <chr>    <chr>     
+    ## 1 845724581 52704341 5443546 A        1         
+    ## 2 845724581 52704341 5443547 A        2
 
 If the variable name in `variables` doesn’t exist in the file, will
 return an error message. When multiple variable names are provided, only
@@ -172,12 +151,12 @@ format validation (while other available nodes are using the
 `spiges-data` validation format).
 
 ``` r
-id_example <- "https://dam-api.bfs.admin.ch/hub/api/dam/assets/32129180/master"
+id_example <- "https://dam-api.bfs.admin.ch/hub/api/dam/assets/36147531/master"
 
 spiges_get_df(x = id_example, node = "Personenidentifikatoren")
 ```
 
-    ## ✔ Format correctly validated using spiges-ids v.1.4.
+    ## ✔ Format correctly validated using XSD schema https://dam-api.bfs.admin.ch/hub/api/dam/assets/36147528/master.
 
     ## # A tibble: 2 × 5
     ##   ent_id    burnr    fall_id ahv           geburtsdatum
@@ -203,7 +182,7 @@ spiges_get_df(
 )
 ```
 
-    ## ✔ Format correctly validated using spiges-data v.1.3.
+    ## ✔ Format correctly validated using XSD schema https://dam-api.bfs.admin.ch/hub/api/dam/assets/27905037/master.
 
     ## # A tibble: 2 × 8
     ##   ent_id    burnr    fall_id diagnose_id diagnose_kode diagnos…¹ diagn…² diagn…³
@@ -223,7 +202,7 @@ spiges_get_df(
 )
 ```
 
-    ## ✔ Format correctly validated using spiges-ids v.1.3.
+    ## ✔ Format correctly validated using XSD schema https://dam-api.bfs.admin.ch/hub/api/dam/assets/27905036/master.
 
     ## # A tibble: 2 × 5
     ##   ent_id    burnr    fall_id ahv           geburtsdatum
@@ -239,8 +218,12 @@ Show node names available for data extraction in XML SpiGes:
 spiges_get_name_nodes(x = xml_example)
 ```
 
-    ## [1] "Administratives"   "Diagnose"          "KostentraegerFall"
-    ## [4] "Behandlung"        "Rechnung"
+    ##  [1] "KostentraegerUnternehmen" "KostentraegerStandort"   
+    ##  [3] "Administratives"          "Neugeborene"             
+    ##  [5] "KostentraegerFall"        "Diagnose"                
+    ##  [7] "Behandlung"               "Rechnung"                
+    ##  [9] "Psychiatrie"              "Medikament"              
+    ## [11] "Patientenbewegung"
 
 ## Get available variable names
 

@@ -18,13 +18,13 @@ spiges_get_df <- function(x, node, variables = NULL, schema_xsd = "latest", forc
   # validate the XML format based on node selection
   schema_xml <- if(node != "Personenidentifikatoren") {
     if(schema_xsd == "latest") {
-      "https://dam-api.bfs.admin.ch/hub/api/dam/assets/32129176/master"
+      "https://dam-api.bfs.admin.ch/hub/api/dam/assets/36182162/master"
     } else {
       schema_xsd
     }
   } else if(node == "Personenidentifikatoren") {
     if(schema_xsd == "latest") {
-      "https://dam-api.bfs.admin.ch/hub/api/dam/assets/32129184/master"
+      "https://dam-api.bfs.admin.ch/hub/api/dam/assets/36147528/master"
     } else {
       schema_xsd
     }
@@ -54,18 +54,15 @@ spiges_get_df <- function(x, node, variables = NULL, schema_xsd = "latest", forc
   nodeset <- xml2::xml_find_all(x = xml, xpath = paste0("//spiges:", node), ns = ns)
 
   schema_file <- xml2::read_xml(schema_xml)
-  schema_xmlns <- xml2::xml_attr(schema_file, attr = "xmlns")
-  schema_type <- basename(dirname(schema_xmlns))
-  schema_version <- basename(schema_xmlns)
 
   # validate input file
   validation_output <- xml2::xml_validate(xml, schema_file)
 
   if(validation_output) {
-    cli::cli_alert_success("Format correctly validated using {schema_type} v.{schema_version}.")
+    cli::cli_alert_success("Format correctly validated using XSD schema {schema_xml}.")
   }
   if(isFALSE(validation_output)) {
-    cli::cli_alert_danger("Incorrect format  using {schema_type} v.{schema_version}.\n\n{attributes(validation_output)$errors}")
+    cli::cli_alert_danger("Incorrect format using XSD schema {schema_xml}.\n\n{attributes(validation_output)$errors}")
     if (isFALSE(force)) {
       return(invisible(FALSE))
     }
