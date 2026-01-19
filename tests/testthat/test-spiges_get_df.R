@@ -1,5 +1,5 @@
 test_that("spiges_get_df() works", {
-  x <- "https://dam-api.bfs.admin.ch/hub/api/dam/assets/32129227/master"
+  x <- "https://dam-api.bfs.admin.ch/hub/api/dam/assets/36147530/master"
 
   df <- spiges_get_df(
     x = x,
@@ -30,7 +30,7 @@ test_that("spiges_get_df() works", {
 
 test_that("spiges_get_df() with spiges-ids works", {
   df_ids <- spiges_get_df(
-    x = "https://dam-api.bfs.admin.ch/hub/api/dam/assets/32129180/master",
+    x = "https://dam-api.bfs.admin.ch/hub/api/dam/assets/36147531/master",
     node = "Personenidentifikatoren"
   )
   expect_s3_class(df_ids, "data.frame")
