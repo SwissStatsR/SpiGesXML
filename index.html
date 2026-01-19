@@ -8,8 +8,8 @@
 <title>Extract data from SpiGes XML files • SpiGesXML</title>
 <script src="deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet">
-<script src="deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="deps/font-awesome-6.4.2/css/all.min.css" rel="stylesheet">
-<link href="deps/font-awesome-6.4.2/css/v4-shims.min.css" rel="stylesheet">
+<script src="deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
+<link href="deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet">
 <script src="deps/headroom-0.11.0/headroom.min.js"></script><script src="deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="deps/search-1.0.0/fuse.min.js"></script><script src="deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="pkgdown.js"></script><meta property="og:title" content="Extract data from SpiGes XML files">
 <meta name="description" content="Provide functions to extract data from SpiGes XML files.">
 <meta property="og:description" content="Provide functions to extract data from SpiGes XML files.">
@@ -23,7 +23,7 @@
 
     <a class="navbar-brand me-2" href="index.html">SpiGesXML</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.6</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.7</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -66,6 +66,11 @@
 <span><span class="fu">remotes</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"SwissStatsR/SpiGesXML"</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level2">
+<h2 id="latest-validation-format">Latest validation format<a class="anchor" aria-label="anchor" href="#latest-validation-format"></a>
+</h2>
+<p>By default, the functions use the “latest” format validation version, which is currently the SpiGes version 1.5. The section <a href="#id_#%20Change%20format%20validation%20version">Change format version</a> provides examples how to change manually the version.</p>
+</div>
+<div class="section level2">
 <h2 id="examples">Examples<a class="anchor" aria-label="anchor" href="#examples"></a>
 </h2>
 <p>Using <code><a href="reference/spiges_get_df.html">spiges_get_df()</a></code>, you can get the data from any SpiGes XML file using the <code>x</code> argument. The <code>x</code> argument can be an URL or the path of a give XML file.</p>
@@ -74,34 +79,24 @@
 <span></span>
 <span><span class="co"># SpiGes XML file example </span></span>
 <span><span class="co"># https://www.bfs.admin.ch/bfs/de/home/statistiken/gesundheit/gesundheitswesen/projekt-spiges.assetdetail.27905035.html</span></span>
-<span><span class="va">xml_example</span> <span class="op">&lt;-</span> <span class="st">"https://dam-api.bfs.admin.ch/hub/api/dam/assets/32129227/master"</span></span>
+<span><span class="co">#xml_example &lt;- "https://dam-api.bfs.admin.ch/hub/api/dam/assets/32129227/master"</span></span>
+<span><span class="va">xml_example</span> <span class="op">&lt;-</span> <span class="st">"https://dam-api.bfs.admin.ch/hub/api/dam/assets/36147530/master"</span></span>
 <span></span>
 <span><span class="fu"><a href="reference/spiges_get_df.html">spiges_get_df</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">xml_example</span>, node <span class="op">=</span> <span class="st">"Administratives"</span><span class="op">)</span></span></code></pre></div>
-<div class="sourceCode" id="cb4"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a><span class="do">## ✔ Format correctly validated using spiges-data v.1.4.</span></span>
+<div class="sourceCode" id="cb4"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a><span class="do">## ✔ Format correctly validated using XSD schema https://dam-api.bfs.admin.ch/hub/api/dam/assets/36182162/master.</span></span>
 <span id="cb4-2"><a href="#cb4-2" tabindex="-1"></a></span>
-<span id="cb4-3"><a href="#cb4-3" tabindex="-1"></a><span class="do">## # A tibble: 13 × 34</span></span>
-<span id="cb4-4"><a href="#cb4-4" tabindex="-1"></a><span class="do">##    ent_id    burnr fall_id burnr…¹ abc_f…² gesch…³ alter alter…⁴ wohno…⁵ wohnk…⁶</span></span>
-<span id="cb4-5"><a href="#cb4-5" tabindex="-1"></a><span class="do">##    &lt;chr&gt;     &lt;chr&gt; &lt;chr&gt;   &lt;chr&gt;   &lt;chr&gt;   &lt;chr&gt;   &lt;chr&gt; &lt;chr&gt;   &lt;chr&gt;   &lt;chr&gt;  </span></span>
-<span id="cb4-6"><a href="#cb4-6" tabindex="-1"></a><span class="do">##  1 100000012 1000… 1       712978… A       2       97    &lt;NA&gt;    GE03    GE     </span></span>
-<span id="cb4-7"><a href="#cb4-7" tabindex="-1"></a><span class="do">##  2 100000012 1000… 2       712879… A       1       49    &lt;NA&gt;    AG52    AG     </span></span>
-<span id="cb4-8"><a href="#cb4-8" tabindex="-1"></a><span class="do">##  3 100000012 1000… 3       712934… A       2       101   &lt;NA&gt;    BE76    BE     </span></span>
-<span id="cb4-9"><a href="#cb4-9" tabindex="-1"></a><span class="do">##  4 100000012 1000… 4       712879… A       1       62    &lt;NA&gt;    AG52    AG     </span></span>
-<span id="cb4-10"><a href="#cb4-10" tabindex="-1"></a><span class="do">##  5 100000012 1000… 5       712879… A       2       61    &lt;NA&gt;    AG52    AG     </span></span>
-<span id="cb4-11"><a href="#cb4-11" tabindex="-1"></a><span class="do">##  6 100000012 1000… 6       712978… A       2       84    &lt;NA&gt;    VD39    VD     </span></span>
-<span id="cb4-12"><a href="#cb4-12" tabindex="-1"></a><span class="do">##  7 100000012 1000… 7       712879… A       1       75    &lt;NA&gt;    BE48    BE     </span></span>
-<span id="cb4-13"><a href="#cb4-13" tabindex="-1"></a><span class="do">##  8 100000012 1000… 8       711791… A       2       91    &lt;NA&gt;    BE52    BE     </span></span>
-<span id="cb4-14"><a href="#cb4-14" tabindex="-1"></a><span class="do">##  9 100000012 1000… 9       712879… A       1       65    &lt;NA&gt;    BE48    BE     </span></span>
-<span id="cb4-15"><a href="#cb4-15" tabindex="-1"></a><span class="do">## 10 100000012 1000… 10      712934… A       2       105   &lt;NA&gt;    ZH29    ZH     </span></span>
-<span id="cb4-16"><a href="#cb4-16" tabindex="-1"></a><span class="do">## 11 100000012 1000… 11      711791… A       1       67    &lt;NA&gt;    ZH23    ZH     </span></span>
-<span id="cb4-17"><a href="#cb4-17" tabindex="-1"></a><span class="do">## 12 100000012 1000… 12      712934… A       1       55    &lt;NA&gt;    BS09    BS     </span></span>
-<span id="cb4-18"><a href="#cb4-18" tabindex="-1"></a><span class="do">## 13 100000012 1000… 13      712879… A       2       67    &lt;NA&gt;    TI30    TI     </span></span>
-<span id="cb4-19"><a href="#cb4-19" tabindex="-1"></a><span class="do">## # … with 24 more variables: wohnland &lt;chr&gt;, nationalitaet &lt;chr&gt;,</span></span>
-<span id="cb4-20"><a href="#cb4-20" tabindex="-1"></a><span class="do">## #   eintrittsdatum &lt;chr&gt;, eintritt_aufenthalt &lt;chr&gt;, eintrittsart &lt;chr&gt;,</span></span>
-<span id="cb4-21"><a href="#cb4-21" tabindex="-1"></a><span class="do">## #   einw_instanz &lt;chr&gt;, liegeklasse &lt;chr&gt;, versicherungsklasse &lt;chr&gt;,</span></span>
-<span id="cb4-22"><a href="#cb4-22" tabindex="-1"></a><span class="do">## #   admin_urlaub &lt;chr&gt;, chlz &lt;chr&gt;, aufenthalt_ips &lt;chr&gt;, beatmung &lt;chr&gt;,</span></span>
-<span id="cb4-23"><a href="#cb4-23" tabindex="-1"></a><span class="do">## #   schwere_score &lt;chr&gt;, art_score &lt;chr&gt;, nems &lt;chr&gt;, aufenthalt_imc &lt;chr&gt;,</span></span>
-<span id="cb4-24"><a href="#cb4-24" tabindex="-1"></a><span class="do">## #   aufwand_imc &lt;chr&gt;, hauptleistungsstelle &lt;chr&gt;, grundversicherung &lt;chr&gt;,</span></span>
-<span id="cb4-25"><a href="#cb4-25" tabindex="-1"></a><span class="do">## #   tarif &lt;chr&gt;, austrittsdatum &lt;chr&gt;, austrittsentscheid &lt;chr&gt;, …</span></span></code></pre></div>
+<span id="cb4-3"><a href="#cb4-3" tabindex="-1"></a><span class="do">## # A tibble: 2 × 35</span></span>
+<span id="cb4-4"><a href="#cb4-4" tabindex="-1"></a><span class="do">##   ent_id    burnr  fall_id burnr…¹ abc_f…² gesch…³ alter alter…⁴ wohno…⁵ wohnk…⁶</span></span>
+<span id="cb4-5"><a href="#cb4-5" tabindex="-1"></a><span class="do">##   &lt;chr&gt;     &lt;chr&gt;  &lt;chr&gt;   &lt;chr&gt;   &lt;chr&gt;   &lt;chr&gt;   &lt;chr&gt; &lt;chr&gt;   &lt;chr&gt;   &lt;chr&gt;  </span></span>
+<span id="cb4-6"><a href="#cb4-6" tabindex="-1"></a><span class="do">## 1 845724581 52704… 5443546 7584215 A       1       0     1       AG01    AG     </span></span>
+<span id="cb4-7"><a href="#cb4-7" tabindex="-1"></a><span class="do">## 2 845724581 52704… 5443547 7584215 A       2       37    &lt;NA&gt;    &lt;NA&gt;    &lt;NA&gt;   </span></span>
+<span id="cb4-8"><a href="#cb4-8" tabindex="-1"></a><span class="do">## # … with 25 more variables: wohnland &lt;chr&gt;, nationalitaet &lt;chr&gt;,</span></span>
+<span id="cb4-9"><a href="#cb4-9" tabindex="-1"></a><span class="do">## #   eintrittsdatum &lt;chr&gt;, eintritt_aufenthalt &lt;chr&gt;, eintrittsart &lt;chr&gt;,</span></span>
+<span id="cb4-10"><a href="#cb4-10" tabindex="-1"></a><span class="do">## #   einw_instanz &lt;chr&gt;, liegeklasse &lt;chr&gt;, versicherungsklasse &lt;chr&gt;,</span></span>
+<span id="cb4-11"><a href="#cb4-11" tabindex="-1"></a><span class="do">## #   admin_urlaub &lt;chr&gt;, chlz &lt;chr&gt;, aufenthalt_ips &lt;chr&gt;, beatmung &lt;chr&gt;,</span></span>
+<span id="cb4-12"><a href="#cb4-12" tabindex="-1"></a><span class="do">## #   schwere_score &lt;chr&gt;, art_score &lt;chr&gt;, nems &lt;chr&gt;, aufenthalt_imc &lt;chr&gt;,</span></span>
+<span id="cb4-13"><a href="#cb4-13" tabindex="-1"></a><span class="do">## #   aufwand_imc &lt;chr&gt;, hauptleistungsstelle &lt;chr&gt;, grundversicherung &lt;chr&gt;,</span></span>
+<span id="cb4-14"><a href="#cb4-14" tabindex="-1"></a><span class="do">## #   tarif &lt;chr&gt;, austrittsdatum &lt;chr&gt;, austrittsentscheid &lt;chr&gt;, …</span></span></code></pre></div>
 <p>If for some reasons there is no data for a given node, <code><a href="reference/spiges_get_df.html">spiges_get_df()</a></code> will return an error with suggestions of existing nodes in the SpiGes file.</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="reference/spiges_get_df.html">spiges_get_df</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">xml_example</span>, node <span class="op">=</span> <span class="st">"Admin"</span><span class="op">)</span></span></code></pre></div>
@@ -116,7 +111,7 @@
 <span>  package <span class="op">=</span> <span class="st">"SpiGesXML"</span></span>
 <span><span class="op">)</span></span>
 <span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://xml2.r-lib.org/" class="external-link">xml2</a></span><span class="op">)</span> <span class="co"># install.packages("xml2")</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://xml2.r-lib.org" class="external-link">xml2</a></span><span class="op">)</span> <span class="co"># install.packages("xml2")</span></span>
 <span></span>
 <span><span class="co"># for example burnr="INCORRECT VALUE"</span></span>
 <span><span class="fu">xml2</span><span class="fu">::</span><span class="fu"><a href="http://xml2.r-lib.org/reference/read_xml.html" class="external-link">read_xml</a></span><span class="op">(</span><span class="va">xml_file_incorrect</span><span class="op">)</span></span></code></pre></div>
@@ -130,30 +125,19 @@
 <span>  node <span class="op">=</span> <span class="st">"Administratives"</span>,</span>
 <span>  force <span class="op">=</span> <span class="cn">FALSE</span> <span class="co"># TO RETURN DATA, USE "TRUE"</span></span>
 <span><span class="op">)</span></span></code></pre></div>
-<div class="sourceCode" id="cb10"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" tabindex="-1"></a><span class="do">## ✖ Incorrect format  using spiges-data v.1.4.</span></span>
+<div class="sourceCode" id="cb10"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" tabindex="-1"></a><span class="do">## ✖ Incorrect format using XSD schema https://dam-api.bfs.admin.ch/hub/api/dam/assets/36182162/master.</span></span>
 <span id="cb10-2"><a href="#cb10-2" tabindex="-1"></a><span class="do">## </span></span>
-<span id="cb10-3"><a href="#cb10-3" tabindex="-1"></a><span class="do">## Element '{http://www.bfs.admin.ch/xmlns/gvs/spiges-data/1.4}Standort', attribute 'burnr': 'INCORRECT VALUE' is not a valid value of the local atomic type.</span></span></code></pre></div>
+<span id="cb10-3"><a href="#cb10-3" tabindex="-1"></a><span class="do">## Element '{http://www.bfs.admin.ch/xmlns/gvs/spiges-data/1.4}Unternehmen': No matching global declaration available for the validation root.</span></span></code></pre></div>
 <p>Variables can be individually selected using the <code>variables</code> argument:</p>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="reference/spiges_get_df.html">spiges_get_df</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">xml_example</span>, node <span class="op">=</span> <span class="st">"Administratives"</span>, variables <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"abc_fall"</span>, <span class="st">"geschlecht"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<div class="sourceCode" id="cb12"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" tabindex="-1"></a><span class="do">## ✔ Format correctly validated using spiges-data v.1.4.</span></span>
+<div class="sourceCode" id="cb12"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" tabindex="-1"></a><span class="do">## ✔ Format correctly validated using XSD schema https://dam-api.bfs.admin.ch/hub/api/dam/assets/36182162/master.</span></span>
 <span id="cb12-2"><a href="#cb12-2" tabindex="-1"></a></span>
-<span id="cb12-3"><a href="#cb12-3" tabindex="-1"></a><span class="do">## # A tibble: 13 × 5</span></span>
-<span id="cb12-4"><a href="#cb12-4" tabindex="-1"></a><span class="do">##    ent_id    burnr    fall_id abc_fall geschlecht</span></span>
-<span id="cb12-5"><a href="#cb12-5" tabindex="-1"></a><span class="do">##    &lt;chr&gt;     &lt;chr&gt;    &lt;chr&gt;   &lt;chr&gt;    &lt;chr&gt;     </span></span>
-<span id="cb12-6"><a href="#cb12-6" tabindex="-1"></a><span class="do">##  1 100000012 10000012 1       A        2         </span></span>
-<span id="cb12-7"><a href="#cb12-7" tabindex="-1"></a><span class="do">##  2 100000012 10000012 2       A        1         </span></span>
-<span id="cb12-8"><a href="#cb12-8" tabindex="-1"></a><span class="do">##  3 100000012 10000012 3       A        2         </span></span>
-<span id="cb12-9"><a href="#cb12-9" tabindex="-1"></a><span class="do">##  4 100000012 10000012 4       A        1         </span></span>
-<span id="cb12-10"><a href="#cb12-10" tabindex="-1"></a><span class="do">##  5 100000012 10000012 5       A        2         </span></span>
-<span id="cb12-11"><a href="#cb12-11" tabindex="-1"></a><span class="do">##  6 100000012 10000012 6       A        2         </span></span>
-<span id="cb12-12"><a href="#cb12-12" tabindex="-1"></a><span class="do">##  7 100000012 10000012 7       A        1         </span></span>
-<span id="cb12-13"><a href="#cb12-13" tabindex="-1"></a><span class="do">##  8 100000012 10000012 8       A        2         </span></span>
-<span id="cb12-14"><a href="#cb12-14" tabindex="-1"></a><span class="do">##  9 100000012 10000012 9       A        1         </span></span>
-<span id="cb12-15"><a href="#cb12-15" tabindex="-1"></a><span class="do">## 10 100000012 10000012 10      A        2         </span></span>
-<span id="cb12-16"><a href="#cb12-16" tabindex="-1"></a><span class="do">## 11 100000012 10000012 11      A        1         </span></span>
-<span id="cb12-17"><a href="#cb12-17" tabindex="-1"></a><span class="do">## 12 100000012 10000012 12      A        1         </span></span>
-<span id="cb12-18"><a href="#cb12-18" tabindex="-1"></a><span class="do">## 13 100000012 10000012 13      A        2</span></span></code></pre></div>
+<span id="cb12-3"><a href="#cb12-3" tabindex="-1"></a><span class="do">## # A tibble: 2 × 5</span></span>
+<span id="cb12-4"><a href="#cb12-4" tabindex="-1"></a><span class="do">##   ent_id    burnr    fall_id abc_fall geschlecht</span></span>
+<span id="cb12-5"><a href="#cb12-5" tabindex="-1"></a><span class="do">##   &lt;chr&gt;     &lt;chr&gt;    &lt;chr&gt;   &lt;chr&gt;    &lt;chr&gt;     </span></span>
+<span id="cb12-6"><a href="#cb12-6" tabindex="-1"></a><span class="do">## 1 845724581 52704341 5443546 A        1         </span></span>
+<span id="cb12-7"><a href="#cb12-7" tabindex="-1"></a><span class="do">## 2 845724581 52704341 5443547 A        2</span></span></code></pre></div>
 <p>If the variable name in <code>variables</code> doesn’t exist in the file, will return an error message. When multiple variable names are provided, only correct variable names will be returned (with no error messages if a variable name is correct).</p>
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="reference/spiges_get_df.html">spiges_get_df</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">xml_example</span>, node <span class="op">=</span> <span class="st">"Administratives"</span>, variables <span class="op">=</span> <span class="st">"Geschlecht"</span><span class="op">)</span></span></code></pre></div>
@@ -170,10 +154,10 @@
 </h2>
 <p>You can also access “Personenidentifikatoren” data using <code><a href="reference/spiges_get_df.html">spiges_get_df()</a></code>. Under the hood the function is using the <code>spiges-ids</code> format validation (while other available nodes are using the <code>spiges-data</code> validation format).</p>
 <div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">id_example</span> <span class="op">&lt;-</span> <span class="st">"https://dam-api.bfs.admin.ch/hub/api/dam/assets/32129180/master"</span></span>
+<code class="sourceCode R"><span><span class="va">id_example</span> <span class="op">&lt;-</span> <span class="st">"https://dam-api.bfs.admin.ch/hub/api/dam/assets/36147531/master"</span></span>
 <span></span>
 <span><span class="fu"><a href="reference/spiges_get_df.html">spiges_get_df</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">id_example</span>, node <span class="op">=</span> <span class="st">"Personenidentifikatoren"</span><span class="op">)</span></span></code></pre></div>
-<div class="sourceCode" id="cb16"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" tabindex="-1"></a><span class="do">## ✔ Format correctly validated using spiges-ids v.1.4.</span></span>
+<div class="sourceCode" id="cb16"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" tabindex="-1"></a><span class="do">## ✔ Format correctly validated using XSD schema https://dam-api.bfs.admin.ch/hub/api/dam/assets/36147528/master.</span></span>
 <span id="cb16-2"><a href="#cb16-2" tabindex="-1"></a></span>
 <span id="cb16-3"><a href="#cb16-3" tabindex="-1"></a><span class="do">## # A tibble: 2 × 5</span></span>
 <span id="cb16-4"><a href="#cb16-4" tabindex="-1"></a><span class="do">##   ent_id    burnr    fall_id ahv           geburtsdatum</span></span>
@@ -193,7 +177,7 @@
 <span>  node <span class="op">=</span> <span class="st">"Diagnose"</span>,</span>
 <span>  schema_xsd <span class="op">=</span> <span class="st">"https://dam-api.bfs.admin.ch/hub/api/dam/assets/27905037/master"</span></span>
 <span><span class="op">)</span></span></code></pre></div>
-<div class="sourceCode" id="cb18"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" tabindex="-1"></a><span class="do">## ✔ Format correctly validated using spiges-data v.1.3.</span></span>
+<div class="sourceCode" id="cb18"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" tabindex="-1"></a><span class="do">## ✔ Format correctly validated using XSD schema https://dam-api.bfs.admin.ch/hub/api/dam/assets/27905037/master.</span></span>
 <span id="cb18-2"><a href="#cb18-2" tabindex="-1"></a></span>
 <span id="cb18-3"><a href="#cb18-3" tabindex="-1"></a><span class="do">## # A tibble: 2 × 8</span></span>
 <span id="cb18-4"><a href="#cb18-4" tabindex="-1"></a><span class="do">##   ent_id    burnr    fall_id diagnose_id diagnose_kode diagnos…¹ diagn…² diagn…³</span></span>
@@ -209,7 +193,7 @@
 <span>    node <span class="op">=</span> <span class="st">"Personenidentifikatoren"</span>,</span>
 <span>    schema_xsd <span class="op">=</span> <span class="st">"https://dam-api.bfs.admin.ch/hub/api/dam/assets/27905036/master"</span></span>
 <span><span class="op">)</span></span></code></pre></div>
-<div class="sourceCode" id="cb20"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" tabindex="-1"></a><span class="do">## ✔ Format correctly validated using spiges-ids v.1.3.</span></span>
+<div class="sourceCode" id="cb20"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" tabindex="-1"></a><span class="do">## ✔ Format correctly validated using XSD schema https://dam-api.bfs.admin.ch/hub/api/dam/assets/27905036/master.</span></span>
 <span id="cb20-2"><a href="#cb20-2" tabindex="-1"></a></span>
 <span id="cb20-3"><a href="#cb20-3" tabindex="-1"></a><span class="do">## # A tibble: 2 × 5</span></span>
 <span id="cb20-4"><a href="#cb20-4" tabindex="-1"></a><span class="do">##   ent_id    burnr    fall_id ahv           geburtsdatum</span></span>
@@ -223,8 +207,12 @@
 <p>Show node names available for data extraction in XML SpiGes:</p>
 <div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="reference/spiges_get_name_nodes.html">spiges_get_name_nodes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">xml_example</span><span class="op">)</span></span></code></pre></div>
-<div class="sourceCode" id="cb22"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" tabindex="-1"></a><span class="do">## [1] "Administratives"   "Diagnose"          "KostentraegerFall"</span></span>
-<span id="cb22-2"><a href="#cb22-2" tabindex="-1"></a><span class="do">## [4] "Behandlung"        "Rechnung"</span></span></code></pre></div>
+<div class="sourceCode" id="cb22"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" tabindex="-1"></a><span class="do">##  [1] "KostentraegerUnternehmen" "KostentraegerStandort"   </span></span>
+<span id="cb22-2"><a href="#cb22-2" tabindex="-1"></a><span class="do">##  [3] "Administratives"          "Neugeborene"             </span></span>
+<span id="cb22-3"><a href="#cb22-3" tabindex="-1"></a><span class="do">##  [5] "KostentraegerFall"        "Diagnose"                </span></span>
+<span id="cb22-4"><a href="#cb22-4" tabindex="-1"></a><span class="do">##  [7] "Behandlung"               "Rechnung"                </span></span>
+<span id="cb22-5"><a href="#cb22-5" tabindex="-1"></a><span class="do">##  [9] "Psychiatrie"              "Medikament"              </span></span>
+<span id="cb22-6"><a href="#cb22-6" tabindex="-1"></a><span class="do">## [11] "Patientenbewegung"</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="get-available-variable-names">Get available variable names<a class="anchor" aria-label="anchor" href="#get-available-variable-names"></a>
@@ -286,9 +274,9 @@
 <h2 data-toc-skip>Developers</h2>
 <ul class="list-unstyled">
 <li>
-<a href="https://felixluginbuhl.com" class="external-link">Felix Luginbuhl</a> <br><small class="roles"> Author, maintainer </small> <a href="https://orcid.org/0009-0008-6625-2899" target="orcid.widget" aria-label="ORCID" class="external-link"><span class="fab fa-orcid orcid" aria-hidden="true"></span></a> </li>
-<li>Hedwig Prey <br><small class="roles"> Author </small>  </li>
-<li>Fachstelle für Statistik Kanton St.Gallen <br><small class="roles"> Copyright holder, funder </small>  </li>
+<a href="https://felixluginbuhl.com" class="external-link">Felix Luginbuhl</a> <br><small class="roles"> Author, maintainer </small> <a href="https://orcid.org/0009-0008-6625-2899" target="orcid.widget" aria-label="ORCID" class="external-link"><span class="fab fa-orcid orcid" aria-hidden="true"></span></a>  </li>
+<li>Hedwig Prey <br><small class="roles"> Author </small>   </li>
+<li>Fachstelle für Statistik Kanton St.Gallen <br><small class="roles"> Copyright holder, funder </small>   </li>
 </ul>
 </div>
 
@@ -310,7 +298,7 @@
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0.</p>
 </div>
 
     </footer>
